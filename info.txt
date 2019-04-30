@@ -1,0 +1,68 @@
+Avaliação da Disciplina de R: 
+
+Itens: 
+
+- 21 dias para entregar o material, ou seja, dia 17 de maio;
+- PDF Rmarkdown, com todos os arquivos necessários;
+- Repositório do GitHub ou pasta zip;
+
+- Roteiro;
+   - introdução 1 paragrafo;
+   - requerimentos (pacotes);
+   - desenvolvimento;
+   - respostas encontradas (1 paragrafo);
+   - dificuldades encontradas;
+   - bibliografia (sem formato definido);
+- Acrescentar itens que quiser. 
+
+-------------------------------------------------------------------------------------
+
+1. Dentro do prazo.
+2. Uso de Rmarkdown/PDF.
+3. Dentro do roteiro
+4. No PDF, todas as linhas de código de R aparecerem sem cortes
+5. Estilo de escrita do código, identação, clareza.
+6. Comentários no código, se criar alguma função comentar o que faz,
+qual entrada e qual a saída
+7. GitHub ou zipado com todos os arquivos necessários.
+8. Reprodutibilidade, o arquivo .rmd gera o PDF apresentado?
+9. Texto do documento.
+10. Exercícios dos Swirl. 
+
+
+------------------------------------------------------------------------------------- 
+
+Exemplo que muito provavelmente será utilizado na atividade final:
+
+- Reconstrução filogenética usando sequências do GenBank
+Fonte: Analysis of Phylogenetics and Evolution with R.
+Emmanuel Paradis. páginas:46–50, 121–125 “Caso Sylvia”
+
+
+-------------------------------------------
+
+Crescimento independente de densidade
+Fonte : A primer of ecology with R.
+M. Henry H. Stevens. Cap. 1. Problema 1.1
+
+------------------------------------------- 
+
+Seleção de modelos por verossimilhança
+Fonte: http://cmq.esalq.usp.br/BIE5781/doku.php?id=07-selecao:07-selecao
+
+------------------------------------------- 
+
+Requer adaptação do roteiro
+Compreender como são os dados. Estatísticas de sumário. Como
+estão distribuídos, há padrões?
+dados https://archive.ics.uci.edu/ml/datasets/student+performance
+Se quiser tentar uma PCA https://www.r-bloggers.com/computing-and-visualizing-pca-in-r/
+
+------------------------------------------- 
+
+Bibliometria
+Usar o pacote bibliometrix
+https://cran.r-project.org/web/packages/bibliometrix/vignettes/bibliometrix-vignette.html
+Usar uma palavra-chave da tua areá
+Criar gráficos: quem produz mais, mais citações, co-citação
+Gerar rede de co-citação.
