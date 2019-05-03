@@ -3,28 +3,524 @@ title: "Bibliometria - Heat shock proteins in plants stressed by cold"
 author: "Ramir Bavaresco Junior"
 date: "4/30/2019"
 output: pdf_document
+geometry: left=3cm,right=3cm,top=2cm,bottom=2cm
 ---
+
+```{r include=FALSE}
+options(Encoding="UTF-8")
+```
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(tidy = TRUE)
+``` 
+
+
+## Estresse abiótico
+
+As plantas são constantemente expostas às adversidades ambientais e precisam ser capazes de interpretar e responder rapidamente a esses fatores. Estresses abióticos como seca, salinidade metais pesados, temperatura elevada e frio resultam no rompimento da homeostasia de proteínas. Sob condições de estresse, múltiplas proteínas celulares podem se envolver de forma imprecisa, porém as _Heat shock proteins_ - HSPs, protegem essas proteínas contra a agregação e auxiliam o correto enovelamento. Entretanto, se escaparem deste processo serão eventualmente eliminadas pelo sistema proteolítico. (Saibil, 2013; Martin et al., 1993).
+
+As HSPs são codificadas por uma família gênica complexa em plantas. Elas funcionam como chaperonas, sendo responsáveis pelo dobramento, montagem, translocação e degradação de proteínas sob condições de estresse e em processos normais (Park & Seo, 2015).
+
+Inicialmente, as HSPs foram descritas por serem induzidas sob temperaturas elevadas (Ritosa, 1962), contudo atualmente sabe-se que a expressão de genes _HSPs_ estão relacionados a ampla variedade de estresses, incluindo o frio, luz violeta ou estresse biótico (Vierling, 1991; Boston, Viitanen & Vierling, 1996).
+
+Nas plantas, as famílias de proteínas de choque térmico são divididas em cinco subfamílias com base no peso molecular de cada membro: HSP100, HSP90, HSP70, HSP60 e sHSPs. Proteínas da subfamília HSP100 são responsáveis por manter a integridade funcional de polipeptídeos chave, permitindo a sinalização de agregados proteícos não funcionais, além de degradar peptídeos irreversivelmente danificados (Gupta et al., 2010; Kim, Hwang & Lee, 2007); em plantas, as proteínas HSP100 são amplamente estudadas por seu papel na tolerância ao calor (Lin et al., 2014).
+
+As proteínas da subfamília HSP90 são induzidas rapidamente por diversas condições de estresse e se associam a várias proteínas intracelulares, incluindo calmodulina, actina, tubulina, quinases e proteínas receptoras (Gupta et al., 2010).
+
+Já dentre as subfamílias de HSPs, a subfamília HSP70 possui os domínios mais conservados. Os membros desta família estão presentes no citosol, retículo endoplasmático, mitocôndria e cloroplasto (Hafrén et al., 2010; Ray et al., 2016). Em seringueiras Zhang e colaboradores (2009) induziram a expressão de um gene da subfamília _HSP70_ sob condição de estresse abiótico (frio e calor) e verificaram que o mesmo tem ação de proteção contra calor e frio. Mantello e colaboradores (2018) verificaram a expressão de HSP70 em ensaios de termotolerância para _Hevea brasiliensis_.
+
+As proteínas da subfamília HSP60 são encontradas em bactérias, mitocôndrias e cloroplasto e desempenham papel importante no auxílio às proteínas plastidiais, como Rubisco (Ribulose-1,5-bifosfato carboxilase/oxigenase), além de contribuir para o dobramento de proteínas transportadas para o cloroplasto e mitocôndrias (Wang et al., 2004). 
+
+Os membros da subfamília sHSPs foram um grupo muito importante, composto por proteínas diversas e estão presentes em todos os organismos, indicando que essas proteínas evoluíram cedo na história da vida. Algumas plantas apresentam mais de 30 sHSPs, sendo a maioria regulada em respostas ao calor (Santhanagopalan et al., 2015). Song e Ahn (2010) verificaram que a expressão de HSP17.7 em cenoura, por exemplo, conferiu tolerância a estresse de alta e baixa temperatura. 
+
+O presente relatório tem por objetivo fazer uma análise bibliométrica de artigos de proteínas de choque térmico em plantas sob estresse de frio. 
+
+## Pacote bibliometrix
+
+O pacote bibliometrix fornece um conjunto de ferramentas para pesquisas quantitativas em bibliometria e cientometria. A bibliometria tornou-se a principal ferramenta para análises quantitativas na ciência. Essencialmente, bibliometria é uma aplicação de análises quantitativas e estatística para dados de publicações e citações. A bibliometria também é usada em avaliação de performance de pesquisas, especialmente em Universidades, instituições governamentais, laboratórios e também por tomadores de decisão, diretores de pesquisa, administradores, especialistas em informação e bibliotecários. 
+
+
+### Instalando o pacote
+
+O comando abaixo foi utilizado para instalar instalar o pacote ```bibliometrix``` com todas as dependências.
+
+```{r}
+install.packages("bibliometrix", dependencies=TRUE, 
+                 repos = "http://cran.us.r-project.org")
 ```
 
-## R Markdown
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+### Guia para realização da análise bibliométrica
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+Essa análise bibliométrica foi realizada com base nas informações disponíveis no site <https://cran.r-project.org/web/packages/bibliometrix/vignettes/bibliometrix-vignette.html>.
 
-```{r cars}
-summary(cars)
+
+### Aquisição dos dados
+
+Os dados para essa análise foram obtidos do site <http://www.webofknowledge.com>. Os termos utilizados no campo de busca foram _"heat shock protein"_, _"plant"_, _"stress"_ e _"cold"_. Isso retornou cerca de 399 artigos. Os 399 artigos tiveram seus metadados baixados no formado ```BibTeX``` contendo todas as informações disponíveis.
+
+
+### Carregando o pacote
+
+Após a instalação do pacote com todas as dependências, o mesmo foi carregado utilizando o seguinte comando:
+
+```{r}
+library(bibliometrix)
 ```
 
-## Including Plots
 
-You can also embed plots, for example:
+### Importando e convertendo os dados
 
-```{r pressure, echo=FALSE}
-plot(pressure)
+#### Importando
+
+O arquivo no formato ```BibTeX``` foi carregado em um objeto do tipo vetor de caracter com o comando: 
+
+```{r}
+D <- readFiles("data/hsp_plant_stress_cold.bib")
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+#### Convertendo o objeto
+
+Este objeto ```D``` do tipo vetor de caracteres precisa ser convertido em um objeto do tipo ```dataframe```, isso foi realizado com o comando:
+
+```{r}
+M <- convert2df(D, dbsource = "isi", format = "bibtex")
+```
+
+
+### Análise bibliométrica
+
+#### Principais medidas
+
+O objeto ```results``` recebe a função ```biblioAnalysis``` que serve para calcular as principais medidas bibliométricas deste _dataset_.
+
+```{r}
+results <- biblioAnalysis(M, sep = ";")
+```
+
+
+#### Resumindo as principais informações
+
+A função ```summary``` serve para resumir as principais informações do dataset.
+```{r}
+S <- summary(object = results, k = 10, pause = FALSE)
+```
+
+
+#### Gráfico das principais informações
+
+A função ```plot``` serve para calcular as principais informações do _dataset_.
+```{r}
+plot(x = results, k = 10, pause = FALSE)
+```
+
+
+### Análise das referências citadas
+
+#### Estrutura dos dados
+
+A estrutura dos dados pode ser verificada com o comando abaixo a fim de verificar como os artigos estão separados, seja por ponto vírgula ou ponto duplo espaço.
+
+```{r}
+M$CR[1]
+```
+
+
+#### Manuscritos mais citados
+
+```{r}
+CR <- citations(M, field = "article", sep = ";")
+cbind(CR$Cited[1:10])
+```
+
+
+#### Primeiro autor mais citado
+
+```{r}
+CR <- citations(M, field = "author", sep = ";")
+cbind(CR$Cited[1:10])
+```
+
+
+#### Autores citados localmente mais frequentes
+
+```{r}
+CR <- localCitations(M, sep = ";")
+CR$Authors[1:10,]
+CR$Papers[1:10,]
+```
+
+
+### Ranking de dominância de autores
+
+```{r}
+DF <- dominance(results, k = 10)
+DF
+```
+
+
+### H-Index dos autores
+
+```{r}
+indices <- Hindex(M, field = "author", elements="RENAUT J", sep = ";", years = 10)
+```
+
+
+#### Indice de impacto do autor Renaut J (escolhido por sero primeiro da lista)
+
+```{r}
+indices$H
+```
+
+
+#### Citações do autor Renaut:
+
+```{r}
+indices$CitationList
+```
+
+
+#### H-Index dos 10 autores mais produtivos
+
+```{r}
+authors=gsub(","," ",names(results$Authors)[1:10])
+indices <- Hindex(M, field = "author", elements=authors, sep = ";", years = 50)
+indices$H
+```
+
+
+### Top autores mais produtivos ao longo do tempo
+
+```{r}
+topAU <- authorProdOverTime(M, k = 10, graph = TRUE)
+```
+
+
+#### Autores mais produtivos por ano (Tabela)
+
+```{r}
+head(topAU$dfAU)
+```
+
+
+#### Lista de documentos dos autores
+
+```{r}
+head(topAU$dfPapersAU)
+```
+
+
+### Coeficiente de estimação da Lei de Lotka
+
+```{r}
+L <- lotka(results)
+```
+
+
+#### Produtividade dos autores. Distribuição empírica
+
+```{r}
+L$AuthorProd
+```
+
+
+#### Estimativa do coefficiente Beta
+
+```{r}
+L$Beta
+```
+
+
+#### Constante
+
+```{r}
+L$C
+```
+
+
+#### Qualidade do ajuste
+
+```{r}
+L$R2
+```
+
+
+#### P-value de Kolmogorov-Smirnoff para o teste de duas amostras
+
+```{r}
+L$p.value
+```
+
+
+#### Distribuição observada
+
+```{r}
+Observed=L$AuthorProd[,3]
+```
+
+
+#### Distribuição teórica com Beta = 2
+
+```{r}
+Theoretical=10^(log10(L$C)-2*log10(L$AuthorProd[,1]))
+
+plot(L$AuthorProd[,1],Theoretical,type="l",col="red", ylim=c(0, 1), 
+     xlab="Articles",ylab="Freq. of Authors", main="Scientific Productivity")
+lines(L$AuthorProd[,1],Observed,col="blue")
+legend(x="topright",c("Theoretical (B=2)","Observed"), col=c("red","blue"),
+       lty = c(1,1,1),cex=0.6,bty="n")
+```
+
+
+### Matrizes de redes bibliográficas
+
+#### Redes bipartidas
+
+```{r}
+A <- cocMatrix(M, Field = "SO", sep = ";")
+```
+
+
+#### Ordem decrescente
+
+```{r}
+sort(Matrix::colSums(A), decreasing = TRUE)[1:5]
+```
+
+
+#### Redes de citação
+
+```{r}
+A <- cocMatrix(M, Field = "CR", sep = ".  ")
+```
+
+
+#### Redes de autores
+
+```{r}
+A <- cocMatrix(M, Field = "AU", sep = ";")
+```
+
+
+#### Redes de países
+
+```{r}
+M <- metaTagExtraction(M, Field = "AU_CO", sep = ";")
+A <- cocMatrix(M, Field = "AU_CO", sep = ";")
+```
+
+
+#### Redes de palavra-chave de autores
+
+```{r}
+A <- cocMatrix(M, Field = "DE", sep = ";")
+```
+
+
+#### Redes de palavras-chave
+
+```{r}
+A <- cocMatrix(M, Field = "ID", sep = ";")
+```
+
+#### Acoplamento bibliográfico
+
+#### Redes de acoplamento de artigos clássicos
+
+```{r}
+NetMatrix <- biblioNetwork(M, analysis = "coupling", 
+                           network = "references", sep = ".  ")
+```
+
+
+#### Normalização
+
+```{r}
+NetMatrix <- biblioNetwork(M, analysis = "coupling", 
+                           network = "authors", sep = ";")
+net=networkPlot(NetMatrix,  normalize = "salton", weighted=NULL, 
+                n = 100, Title = "Authors' Coupling", type = "fruchterman",
+                size=5,size.cex=T,remove.multiple=TRUE,labelsize=0.8, 
+                label.n=10,label.cex=F)
+```
+
+
+#### Co-citações bibliográficas
+
+#### Redes de co-citação de referências clássicas
+
+```{r}
+NetMatrix <- biblioNetwork(M, analysis = "co-citation", 
+                           network = "references", sep = ".  ")
+```
+
+
+#### Colaboração bibliográfica
+
+```{r}
+NetMatrix <- biblioNetwork(M, analysis = "collaboration", network = "authors", sep = ";")
+```
+
+
+#### Redes de colaboração entre países
+
+```{r}
+NetMatrix <- biblioNetwork(M, analysis = "collaboration", network = "countries", sep = ";")
+```
+
+
+### Análise descritiva das características de gráficos de rede
+
+#### Um exemplo de redes de co-ocorrência clássica 
+
+```{r}
+NetMatrix <- biblioNetwork(M, analysis = "co-occurrences", network = "keywords", sep = ";")
+netstat <- networkStat(NetMatrix)
+```
+
+
+#### Verificando os nomes da rede
+
+```{r}
+names(netstat$network)
+names(netstat$vertex)
+```
+
+
+#### Resumo da rede
+
+```{r}
+summary(netstat, k=10)
+```
+
+
+### Visualização de redes bibliográficas
+
+#### Colaboração científica dos países
+
+#### Criação de uma rede de colaboração entre países
+
+```{r}
+M <- metaTagExtraction(M, Field = "AU_CO", sep = ";")
+NetMatrix <- biblioNetwork(M, analysis = "collaboration", 
+                           network = "countries", sep = ";")
+```
+
+
+#### Gráfico da rede
+
+```{r}
+net=networkPlot(NetMatrix, n = dim(NetMatrix)[1], Title = "Country Collaboration", 
+                type = "circle", size=T, remove.multiple=FALSE, 
+                labelsize=0.7,cluster="none")
+```
+
+
+#### Redes de co-citação
+
+#### Criação de uma rede de co-citação
+
+```{r}
+NetMatrix <- biblioNetwork(M, analysis = "co-citation", 
+                           network = "references", sep = ";")
+```
+
+
+#### Gráfico da rede 
+
+```{r}
+net=networkPlot(NetMatrix, n = 30, Title = "Co-Citation Network", 
+                type = "fruchterman", size=T, remove.multiple=FALSE,
+                labelsize=0.7,edgesize = 5)
+```
+
+
+#### Criação de rede de co-ocorrência de palavras-chave
+
+```{r}
+NetMatrix <- biblioNetwork(M, analysis = "co-occurrences", network = "keywords", sep = ";")
+``` 
+
+
+#### Gráfico da rede
+
+```{r}
+net=networkPlot(NetMatrix, normalize="association", weighted=T, n = 30, Title = "Keyword Co-occurrences", type = "fruchterman", size=T,edgesize = 5,labelsize=0.7)
+```
+
+
+### Análise de _co-word_: A estrutura conceitual de um campo
+
+#### Estrutura conceitual usando palavras-chave (método="CA")
+
+```{r}
+CS <- conceptualStructure(M,field="ID", method="CA", minDegree=4, k.max=8, stemming=FALSE, labelsize=10, documents=10)
+```
+
+
+#### Redes de citação histórica direta
+
+#### Criação de uma rede de citação histórica
+
+```{r}
+histResults <- histNetwork(M, min.citations = 10, sep = ";")
+```
+
+#### Gráfico de uma rede de co-citação histórica
+
+```{r}
+net <- histPlot(histResults, n=15, size = 20, labelsize=10, size.cex=TRUE, arrowsize = 0.5, color = TRUE)
+```
+
+
+## Dificuldades encontradas
+
+### Obtenção dos dados
+
+Inicalmente eu recuperei informações de aproximadamente 5 mil artigos, por ser um conjunto de dados gigantesco a análise de redes não terminava, pois não tinha memória RAM suficiente (o notebook possui 8 Gb). Logo eu tive que reduzir o conjunto de dados. Antes as palavras-chave eram _"heat shock protein"_ e _"plant"_, a análise atual foi realizada com as seguintes palavras-chave _"heat shock protein"_, _"plant"_, _"stress"_ e _"cold"_, isso reduziu o número de artigos analisado de 5 mil para menos de 400. 
+
+### Instalação do LaTeX
+
+Instalei diversos programas de LaTeX, porém nenhum funcionava, acabei encontrando uma solução em um fórum de discussão, executei o comando sugerido e o Rmarkdown foi capaz de compilar os dados em LaTeX para PDF. A solução foi encontrada nesse link <https://tex.stackexchange.com/questions/408798/sorry-but-pdflatex-did-not-succeed?rq=1>.
+
+### Formatação
+
+O Rmardown compila o relatório perfeitamente para HTML com os resultados de saída dentro da margem da página, porém a compilação do relatório para PDF apresenta problemas com o resultados de saída (o que seria apresentado no _console_), pois ultrapassam a margem do documento. Não encontrei nenhuma solução efetiva para este problema.
+
+
+## Bibliografia
+
+Boston, Rebecca S.; Viitanen, Paul V.; Vierling, Elizabeth. Molecular chaperones and protein folding in plants. In: Post-transcriptional control of gene expression in plants. Springer, Dordrecht, 1996. p. 191-222.
+
+Gupta, Subash C. et al. Heat shock proteins in toxicology: how close and how far? Life sciences, v. 86, n. 11-12, p. 377-384, 2010.
+
+Hafrén, Anders et al. Hsp70 and its cochaperone CPIP promote potyvirus infection in Nicotiana benthamiana by regulating viral coat protein functions. The Plant Cell, v. 22, n. 2, p. 523-535, 2010.
+
+Kim, Hee-Jung; Hwang, Na Rae; Lee, Kong-Joo. Heat shock responses for understanding diseases of protein denaturation. Molecules & Cells (Springer Science & Business Media BV), v. 23, n. 2, 2007.
+
+Lin, Meng-yi et al. A positive feedback loop between HEAT SHOCK PROTEIN101 and HEAT STRESS-ASSOCIATED 32-KD PROTEIN modulates long-term acquired thermotolerance illustrating diverse heat stress responses in rice varieties. Plant physiology, v. 164, n. 4, p. 2045-2053, 2014.
+
+Mantello, Camila Campos et al. Transcriptome Analysis of Distinct Cold Tolerance Strategies in the Rubber Tree (Hevea brasiliensis). bioRxiv, p. 395590, 2018.
+
+Martin, Jeffrey A.; Wang, Zhong. Next-generation transcriptome assembly. Nature Reviews Genetics, v. 12, n. 10, p. 671, 2011.
+
+Park, Chang-Jin; Seo, Young-Su. Heat shock proteins: a review of the molecular chaperones for plant immunity. The plant pathology journal, v. 31, n. 4, p. 323, 2015.
+
+Ray, Doel et al. Plant stress response: Hsp70 in the spotlight. In: Heat Shock Proteins and Plants. Springer, Cham, 2016. p. 123-147.
+
+Ritossa, Ferruccio. A new puffing pattern induced by temperature shock and DNP in Drosophila. Experientia, v. 18, n. 12, p. 571-573, 1962.
+
+Saibil, Helen. Chaperone machines for protein folding, unfolding and disaggregation. Nature reviews Molecular cell biology, v. 14, n. 10, p. 630, 2013.
+
+Santhanagopalan, Indu et al. Model chaperones: small heat shock proteins from plants. In: The big book on small heat shock proteins. Springer, Cham, 2015. p. 119-153.
+
+Song, Na-Hyun; Ahn, Yeh-Jin. DcHsp17. 7, a small heat shock protein from carrot, is upregulated under cold stress and enhances cold tolerance by functioning as a molecular chaperone. HortScience, v. 45, n. 3, p. 469-474, 2010.
+
+Vierling, Elizabeth. The roles of heat shock proteins in plants. Annual review of plant biology, v. 42, n. 1, p. 579-620, 1991.
+
+Wang, Wangxia et al. Role of plant heat-shock proteins and molecular chaperones in the abiotic stress response. Trends in plant science, v. 9, n. 5, p. 244-252, 2004.
+
+Zhang, Zhi-Li et al. Molecular characterization of an ethephon-induced Hsp70 involved in high and low-temperature responses in Hevea brasiliensis. Plant Physiology and Biochemistry, v. 47, n. 10, p. 954-959, 2009.
+

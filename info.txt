@@ -7,13 +7,13 @@ Itens:
 - Repositório do GitHub ou pasta zip;
 
 - Roteiro;
-   - introdução 1 paragrafo;
-   - requerimentos (pacotes);
-   - desenvolvimento;
-   - respostas encontradas (1 paragrafo);
-   - dificuldades encontradas;
-   - bibliografia (sem formato definido);
-- Acrescentar itens que quiser. 
+   - introdução 1 paragrafo; OK
+   - requerimentos (pacotes); OK
+   - desenvolvimento; OK
+   - respostas encontradas (1 paragrafo); OK
+   - dificuldades encontradas; Corrigir a droga da quebra de linha da margem do PDF, em HTML funciona lindamente. 
+   - bibliografia (sem formato definido); Em andamento
+- Acrescentar itens que quiser. NOPE.
 
 -------------------------------------------------------------------------------------
 
@@ -66,3 +66,5 @@ https://cran.r-project.org/web/packages/bibliometrix/vignettes/bibliometrix-vign
 Usar uma palavra-chave da tua areá
 Criar gráficos: quem produz mais, mais citações, co-citação
 Gerar rede de co-citação.
+
+---------------------------------------------------------------------------------
